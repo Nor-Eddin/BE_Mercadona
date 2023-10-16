@@ -1,4 +1,6 @@
-﻿using BE_Mercadona.DataBase;
+﻿using AutoMapper;
+using BE_Mercadona.DataBase;
+using BE_Mercadona.DTOs;
 using BE_Mercadona.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +14,14 @@ namespace BE_Mercadona.Controllers
         #region Properties
         private readonly ILogger<CategoriesController> _logger;
         private readonly ProductDbContext context;
+        private readonly IMapper mapper;
         #endregion
         #region Constructeur
-        public CategoriesController(ILogger<CategoriesController> logger, ProductDbContext context)
+        public CategoriesController(ILogger<CategoriesController> logger, ProductDbContext context,IMapper mapper)
         {
             this._logger = logger;
             this.context = context;
+            this.mapper = mapper;
         }
         #endregion
         #region Methods CRUD for Category
@@ -26,10 +30,11 @@ namespace BE_Mercadona.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<List<Category>> Get()
+        public async Task<List<CategoryDTO>> Get()
         {
             _logger.LogInformation("Getting all the categories");
-            return await context.Categories.ToListAsync();
+            var categories = await context.Categories.ToListAsync();
+            return mapper.Map<List<CategoryDTO>>(categories);
         }
         /// <summary>
         /// Get the category by Id
@@ -43,8 +48,9 @@ namespace BE_Mercadona.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Category category)
+        public async Task<ActionResult> Post([FromBody] CategoryCreationDTO categoryCreationDTO)
         {
+            var category = mapper.Map<Category>(categoryCreationDTO);
             context.Categories.Add(category);
             await context.SaveChangesAsync();
             return Ok("La category à été créer ");

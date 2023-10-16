@@ -8,6 +8,8 @@ namespace BE_Mercadona.Helpers
     {
         public AutoMapperProfiles()
         {
+            CreateMap<CategoryDTO,Category>().ReverseMap();
+            CreateMap<CategoryCreationDTO,Category>();
             CreateMap<ProductDTO,Product>().ReverseMap();
             CreateMap<ProductCreationDTO,Product>();
         }
