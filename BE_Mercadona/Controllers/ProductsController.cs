@@ -1,5 +1,7 @@
-﻿using BE_Mercadona.Models;
+﻿using BE_Mercadona.DataBase;
+using BE_Mercadona.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BE_Mercadona.Controllers
 {
@@ -9,11 +11,13 @@ namespace BE_Mercadona.Controllers
     {
         #region Propreerties
         private readonly ILogger<ProductsController> _logger;
+        private readonly ProductDbContext context;
         #endregion
         #region Constructeur
-        public ProductsController (ILogger<ProductsController>logger)
+        public ProductsController (ILogger<ProductsController>logger,ProductDbContext context)
         {
             this._logger = logger;
+            this.context = context;
         }
         #endregion
         #region Methods CRUD for Product
@@ -25,7 +29,7 @@ namespace BE_Mercadona.Controllers
         public async Task<List<Product>> Get()
         {
             _logger.LogInformation("Getting all the products");
-            return  new List<Product>() {new Product(){ IdProduct = 1, ProductName = "seviette", DescriptionProduct = "azertdfghxcvbsdfgh", Price = 5, Image = "sdfghj" } };
+           return await context.Products.ToListAsync();
         }
         /// <summary>
         /// Get le product by Id
@@ -39,10 +43,11 @@ namespace BE_Mercadona.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Product> Post([FromBody] Product product)
+        public async Task<ActionResult<Product>> Post([FromBody] Product product)
         {
-
-            throw new NotImplementedException();
+            context.Products.Add(product);
+            await context.SaveChangesAsync();
+            return Ok("Le produit à été créer ");
         }
 
         [HttpPut]
