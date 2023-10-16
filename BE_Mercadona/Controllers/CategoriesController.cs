@@ -5,31 +5,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BE_Mercadona.Controllers
 {
-    [Route("api/products")]
+    [Route("api/categories")]
     [Controller]
-    public class ProductsController:ControllerBase
+    public class CategoriesController : ControllerBase
     {
         #region Properties
-        private readonly ILogger<ProductsController> _logger;
+        private readonly ILogger<CategoriesController> _logger;
         private readonly ProductDbContext context;
         #endregion
         #region Constructeur
-        public ProductsController (ILogger<ProductsController>logger,ProductDbContext context)
+        public CategoriesController(ILogger<CategoriesController> logger, ProductDbContext context)
         {
             this._logger = logger;
             this.context = context;
         }
         #endregion
-        #region Methods CRUD for Product
+        #region Methods CRUD for Category
         /// <summary>
         /// Get all products
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<List<Product>> Get()
+        public async Task<List<Category>> Get()
         {
             _logger.LogInformation("Getting all the products");
-           return await context.Products.ToListAsync();
+            return await context.Categories.ToListAsync();
         }
         /// <summary>
         /// Get le product by Id
@@ -37,30 +37,31 @@ namespace BE_Mercadona.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{Id:int}")]
-        public ActionResult<Product> Get(int id)
+        public ActionResult<Category> Get(int id)
         {
             throw new NotImplementedException();
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> Post([FromBody] Product product)
+        public async Task<ActionResult<Category>> Post([FromBody] Category category)
         {
-            context.Products.Add(product);
+            context.Categories.Add(category);
             await context.SaveChangesAsync();
             return Ok("Le produit à été créer ");
         }
 
         [HttpPut]
-        public ActionResult<Product> Put([FromBody] Product product)
+        public ActionResult<Category> Put([FromBody] Category category)
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete]
-        public ActionResult<Product>Delete()
+        public ActionResult<Category> Delete()
         {
             throw new NotImplementedException();
         }
         #endregion
-    }
+    
+}
 }
