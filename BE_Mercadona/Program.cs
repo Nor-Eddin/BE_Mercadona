@@ -1,8 +1,15 @@
 
 
+using BE_Mercadona.DataBase;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<ProductDbContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Mercadona"));
+});
 
 builder.Services.AddControllers();
 
