@@ -43,7 +43,7 @@ namespace BE_Mercadona.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Category>> Post([FromBody] Category category)
+        public async Task<ActionResult> Post([FromBody] Category category)
         {
             context.Categories.Add(category);
             await context.SaveChangesAsync();

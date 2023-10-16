@@ -1,4 +1,6 @@
-﻿using BE_Mercadona.DataBase;
+﻿using AutoMapper;
+using BE_Mercadona.DataBase;
+using BE_Mercadona.DTOs;
 using BE_Mercadona.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +14,14 @@ namespace BE_Mercadona.Controllers
         #region Properties
         private readonly ILogger<ProductsController> _logger;
         private readonly ProductDbContext context;
+        private readonly IMapper mapper;
         #endregion
         #region Constructeur
-        public ProductsController (ILogger<ProductsController>logger,ProductDbContext context)
+        public ProductsController (ILogger<ProductsController>logger,ProductDbContext context,IMapper mapper)
         {
             this._logger = logger;
             this.context = context;
+            this.mapper = mapper;
         }
         #endregion
         #region Methods CRUD for Product
@@ -26,10 +30,11 @@ namespace BE_Mercadona.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<List<Product>> Get()
+        public async Task<List<ProductDTO>> Get()
         {
             _logger.LogInformation("Getting all the products");
-           return await context.Products.ToListAsync();
+            var products = await context.Products.ToListAsync();
+           return mapper.Map<List<ProductDTO>>(products);
         }
         /// <summary>
         /// Get le product by Id
@@ -43,9 +48,10 @@ namespace BE_Mercadona.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> Post([FromBody] Product product)
+        public async Task<ActionResult> Post([FromBody] ProductCreationDTO productCreationDTO)
         {
-            context.Products.Add(product);
+            var product=mapper.Map<Product>(productCreationDTO);
+            context.Add(product);
             await context.SaveChangesAsync();
             return Ok("Le produit à été créer ");
         }

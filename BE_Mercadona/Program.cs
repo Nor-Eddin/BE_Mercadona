@@ -11,11 +11,6 @@ builder.Services.AddDbContext<ProductDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddControllers();
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options =>
 {
@@ -25,6 +20,16 @@ builder.Services.AddCors(options =>
         builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader();
     });
 });
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+builder.Services.AddControllers();
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
