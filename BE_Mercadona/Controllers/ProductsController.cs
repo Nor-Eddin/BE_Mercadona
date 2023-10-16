@@ -6,12 +6,17 @@ namespace BE_Mercadona.Controllers
     [Route("api/products")]
     [Controller]
     public class ProductsController:ControllerBase
-    {        
+    {
+        #region Propreerties
         private readonly ILogger<ProductsController> _logger;
+        #endregion
+        #region Constructeur
         public ProductsController (ILogger<ProductsController>logger)
         {
             this._logger = logger;
         }
+        #endregion
+        #region Methods CRUD for Product
         /// <summary>
         /// Get all products
         /// </summary>
@@ -39,17 +44,18 @@ namespace BE_Mercadona.Controllers
 
             throw new NotImplementedException();
         }
-        
 
         [HttpPut]
         public ActionResult<Product> Put([FromBody] Product product)
         {
             throw new NotImplementedException();
         }
+
         [HttpDelete]
         public ActionResult<Product>Delete()
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }
