@@ -5,63 +5,62 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BE_Mercadona.Controllers
 {
-    [Route("api/categories")]
+    [Route("api/promotions")]
     [Controller]
-    public class CategoriesController : ControllerBase
+    public class PromotionsController:ControllerBase
     {
         #region Properties
-        private readonly ILogger<CategoriesController> _logger;
+        private readonly ILogger<PromotionsController> _logger;
         private readonly ProductDbContext context;
         #endregion
         #region Constructeur
-        public CategoriesController(ILogger<CategoriesController> logger, ProductDbContext context)
+        public PromotionsController(ILogger<PromotionsController> logger, ProductDbContext context)
         {
             this._logger = logger;
             this.context = context;
         }
         #endregion
-        #region Methods CRUD for Category
+        #region Methods CRUD for Promotions
         /// <summary>
-        /// Get all categories
+        /// Get all promotions
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<List<Category>> Get()
+        public async Task<List<Promotion>> Get()
         {
-            _logger.LogInformation("Getting all the categories");
-            return await context.Categories.ToListAsync();
+            _logger.LogInformation("Getting all the promotions");
+            return await context.Promotions.ToListAsync();
         }
         /// <summary>
-        /// Get the category by Id
+        /// Get le promotion by Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{Id:int}")]
-        public ActionResult<Category> Get(int id)
+        public ActionResult<Promotion> Get(int id)
         {
             throw new NotImplementedException();
         }
 
         [HttpPost]
-        public async Task<ActionResult<Category>> Post([FromBody] Category category)
+        public async Task<ActionResult<Promotion>> Post([FromBody] Promotion promotion)
         {
-            context.Categories.Add(category);
+            context.Promotions.Add(promotion);
             await context.SaveChangesAsync();
-            return Ok("La category à été créer ");
+            return Ok("La promotion à été créer ");
         }
 
         [HttpPut]
-        public ActionResult<Category> Put([FromBody] Category category)
+        public ActionResult<Promotion> Put([FromBody] Promotion promotion)
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete]
-        public ActionResult<Category> Delete()
+        public ActionResult<Promotion> Delete()
         {
             throw new NotImplementedException();
         }
         #endregion
-    
-}
+    }
 }
