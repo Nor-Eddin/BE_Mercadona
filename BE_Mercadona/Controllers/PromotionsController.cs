@@ -1,4 +1,6 @@
-﻿using BE_Mercadona.DataBase;
+﻿using AutoMapper;
+using BE_Mercadona.DataBase;
+using BE_Mercadona.DTOs;
 using BE_Mercadona.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +14,14 @@ namespace BE_Mercadona.Controllers
         #region Properties
         private readonly ILogger<PromotionsController> _logger;
         private readonly ProductDbContext context;
+        private readonly IMapper mapper;
         #endregion
         #region Constructeur
-        public PromotionsController(ILogger<PromotionsController> logger, ProductDbContext context)
+        public PromotionsController(ILogger<PromotionsController> logger, ProductDbContext context,IMapper mapper)
         {
             this._logger = logger;
             this.context = context;
+            this.mapper = mapper;
         }
         #endregion
         #region Methods CRUD for Promotions
@@ -26,10 +30,11 @@ namespace BE_Mercadona.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<List<Promotion>> Get()
+        public async Task<List<PromotionDTO>> Get()
         {
             _logger.LogInformation("Getting all the promotions");
-            return await context.Promotions.ToListAsync();
+            var promotions = await context.Promotions.ToListAsync();
+            return mapper.Map<List<PromotionDTO>>(promotions);
         }
         /// <summary>
         /// Get le promotion by Id
@@ -43,8 +48,9 @@ namespace BE_Mercadona.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Promotion>> Post([FromBody] Promotion promotion)
+        public async Task<ActionResult> Post([FromBody] PromotionCreationDTO promotionCreationDTO)
         {
+            var promotion=mapper.Map<Promotion>(promotionCreationDTO);
             context.Promotions.Add(promotion);
             await context.SaveChangesAsync();
             return Ok("La promotion à été créer ");
