@@ -10,7 +10,7 @@ namespace BE_Mercadona.DTOs
         public string DescriptionProduct { get; set; }
         public float Price { get; set; }
         public string Image { get; set; }
-        public Category Cat { get; set; }
+        public int CatId { get; set; }
         public Promotion? Promotions { get; set; }
     }
 }
