@@ -23,6 +23,8 @@ namespace BE_Mercadona.Controllers
             this.context = context;
             this.mapper = mapper;
         }
+
+
         #endregion
         #region Methods CRUD for Product
         /// <summary>

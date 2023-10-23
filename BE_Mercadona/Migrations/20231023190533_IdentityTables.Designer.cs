@@ -3,6 +3,7 @@ using System;
 using BE_Mercadona.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BE_Mercadona.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    partial class ProductDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231023190533_IdentityTables")]
+    partial class IdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,12 +68,12 @@ namespace BE_Mercadona.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("IdPromotion")
+                    b.Property<int?>("PromotionsIdPromotion")
                         .HasColumnType("integer");
 
                     b.HasKey("IdProduct");
 
-                    b.HasIndex("IdPromotion");
+                    b.HasIndex("PromotionsIdPromotion");
 
                     b.ToTable("Product", (string)null);
                 });
@@ -297,7 +300,7 @@ namespace BE_Mercadona.Migrations
                 {
                     b.HasOne("BE_Mercadona.Models.Promotion", "Promotions")
                         .WithMany()
-                        .HasForeignKey("IdPromotion");
+                        .HasForeignKey("PromotionsIdPromotion");
 
                     b.Navigation("Promotions");
                 });
