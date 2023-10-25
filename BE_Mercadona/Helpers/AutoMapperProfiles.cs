@@ -12,6 +12,8 @@ namespace BE_Mercadona.Helpers
             CreateMap<CategoryCreationDTO,Category>();
             CreateMap<ProductDTO,Product>().ReverseMap();
             CreateMap<ProductCreationDTO,Product>();
+            CreateMap<PromotionDTO, Promotion>().ReverseMap();
+            CreateMap<PromotionCreationDTO, Promotion>();
         }
     }
 }

@@ -36,16 +36,6 @@ namespace BE_Mercadona.Controllers
             var categories = await context.Categories.ToListAsync();
             return mapper.Map<List<CategoryDTO>>(categories);
         }
-        /// <summary>
-        /// Get the category by Id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet("{Id:int}")]
-        public ActionResult<Category> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CategoryCreationDTO categoryCreationDTO)
@@ -54,12 +44,6 @@ namespace BE_Mercadona.Controllers
             context.Categories.Add(category);
             await context.SaveChangesAsync();
             return Ok("La category à été créer ");
-        }
-
-        [HttpPut]
-        public ActionResult<Category> Put([FromBody] Category category)
-        {
-            throw new NotImplementedException();
         }
 
         [HttpDelete]
