@@ -39,7 +39,7 @@ namespace BE_Mercadona.Controllers
            return mapper.Map<List<ProductDTO>>(products);
         }
         /// <summary>
-        /// Get le product by Id
+        /// Get one product by Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -54,7 +54,11 @@ namespace BE_Mercadona.Controllers
             }
             return mapper.Map<ProductDTO>(product);
         }
-
+        /// <summary>
+        /// Create one product
+        /// </summary>
+        /// <param name="productCreationDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] ProductCreationDTO productCreationDTO)
         {
@@ -63,7 +67,12 @@ namespace BE_Mercadona.Controllers
             await context.SaveChangesAsync();
             return Ok("Le produit à été créer ");
         }
-
+        /// <summary>
+        /// Update one product
+        /// </summary>
+        /// <param name="IdProduct"></param>
+        /// <param name="productCreationDTO"></param>
+        /// <returns></returns>
         [HttpPut("{IdProduct:int}")]
         public async Task<ActionResult> Put(int IdProduct,[FromBody] ProductCreationDTO productCreationDTO)
         {
@@ -77,11 +86,22 @@ namespace BE_Mercadona.Controllers
             await context.SaveChangesAsync();
             return Ok("Update done");
         }
-
-        [HttpDelete]
-        public ActionResult<Product>Delete()
+        /// <summary>
+        /// Delete one product
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        [HttpDelete("{IdProduct:int}")]
+        public async Task<ActionResult>Delete(int IdProduct)
         {
-            throw new NotImplementedException();
+            var exists = await context.Products.AnyAsync(p => p.IdProduct == IdProduct);
+            if(!exists)
+            {
+                return NotFound();
+            }
+            context.Remove(new Product() { IdProduct=IdProduct});
+            await context.SaveChangesAsync();
+            return Ok("Produit supprimer");
         }
         #endregion
     }

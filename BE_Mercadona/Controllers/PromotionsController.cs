@@ -4,6 +4,7 @@ using BE_Mercadona.DTOs;
 using BE_Mercadona.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace BE_Mercadona.Controllers
 {
@@ -36,7 +37,11 @@ namespace BE_Mercadona.Controllers
             var promotions = await context.Promotions.ToListAsync();
             return mapper.Map<List<PromotionDTO>>(promotions);
         }
-
+        /// <summary>
+        /// Create one promotion
+        /// </summary>
+        /// <param name="promotionCreationDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PromotionCreationDTO promotionCreationDTO)
         {
@@ -45,7 +50,12 @@ namespace BE_Mercadona.Controllers
             await context.SaveChangesAsync();
             return Ok("La promotion à été créer ");
         }
-
+        /// <summary>
+        /// Update one promotion
+        /// </summary>
+        /// <param name="IdPromotion"></param>
+        /// <param name="promotionCreationDTO"></param>
+        /// <returns></returns>
         [HttpPut("{IdPromotion:int}")]
         public async Task<ActionResult> Put(int IdPromotion,[FromBody] PromotionCreationDTO promotionCreationDTO)
         {
@@ -58,11 +68,22 @@ namespace BE_Mercadona.Controllers
             await context.SaveChangesAsync();
             return Ok("update done");
         }
-
-        [HttpDelete]
-        public ActionResult<Promotion> Delete()
+        /// <summary>
+        /// Delete one promotion
+        /// </summary>
+        /// <param name="IdPromotion"></param>
+        /// <returns></returns>
+        [HttpDelete("{IdPromotion:int}")]
+        public async Task<ActionResult> Delete(int IdPromotion)
         {
-            throw new NotImplementedException();
+            var exist=await context.Promotions.AnyAsync(p=>p.IdPromotion==IdPromotion);
+            if (!exist)
+            {
+                return NotFound();
+            }
+            context.Remove(new Promotion() { IdPromotion=IdPromotion });
+            await context.SaveChangesAsync();
+            return Ok("la promotion a ete supprimer");
         }
         #endregion
     }

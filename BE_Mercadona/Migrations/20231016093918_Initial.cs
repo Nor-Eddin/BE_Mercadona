@@ -51,7 +51,7 @@ namespace BE_Mercadona.Migrations
                     Price = table.Column<float>(type: "real", nullable: false),
                     Image = table.Column<string>(type: "text", nullable: false),
                     CatId = table.Column<int>(type: "integer", nullable: false),
-                    PromotionsIdPromotion = table.Column<int>(type: "integer", nullable: true)
+                    IdPromotion = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -63,8 +63,8 @@ namespace BE_Mercadona.Migrations
                         principalColumn: "CatId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Product_Promotion_PromotionsIdPromotion",
-                        column: x => x.PromotionsIdPromotion,
+                        name: "FK_Product_Promotion_IdPromotion",
+                        column: x => x.IdPromotion,
                         principalTable: "Promotion",
                         principalColumn: "IdPromotion");
                 });

@@ -16,7 +16,7 @@ namespace BE_Mercadona.Models
         public string Image { get; set; }
         [Required(ErrorMessage = "The field with name {0} is required")]
         public int CatId { get; set; }
-        public Promotion? Promotions { get; set; }
+        public int? IdPromotion { get; set; }
 
         
     }
