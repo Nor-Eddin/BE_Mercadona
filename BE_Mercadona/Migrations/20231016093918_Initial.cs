@@ -75,9 +75,9 @@ namespace BE_Mercadona.Migrations
                 column: "CatId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_PromotionsIdPromotion",
+                name: "IX_Product_IdPromotion",
                 table: "Product",
-                column: "PromotionsIdPromotion");
+                column: "IdPromotion");
         }
 
         /// <inheritdoc />

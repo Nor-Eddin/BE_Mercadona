@@ -23,6 +23,8 @@ namespace BE_Mercadona.Controllers
             this.context = context;
             this.mapper = mapper;
         }
+
+
         #endregion
         #region Methods CRUD for Product
         /// <summary>
@@ -41,10 +43,16 @@ namespace BE_Mercadona.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{Id:int}")]
-        public ActionResult<Product> Get(int id)
+        [HttpGet("{IdProduct:int}")]
+        public async Task<ActionResult<ProductDTO>> Get(int IdProduct)
         {
-            throw new NotImplementedException();
+            var product = await context.Products.FindAsync(IdProduct);
+            //var product = await context.Products.FirstOrDefaultAsync(c => c.IdProduct == IdProduct);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return mapper.Map<ProductDTO>(product);
         }
 
         [HttpPost]
@@ -56,10 +64,18 @@ namespace BE_Mercadona.Controllers
             return Ok("Le produit à été créer ");
         }
 
-        [HttpPut]
-        public ActionResult<Product> Put([FromBody] Product product)
+        [HttpPut("{IdProduct:int}")]
+        public async Task<ActionResult> Put(int IdProduct,[FromBody] ProductCreationDTO productCreationDTO)
         {
-            throw new NotImplementedException();
+            var product = await context.Products.FindAsync(IdProduct);
+            //var product = await context.Products.FirstOrDefaultAsync(p => p.IdProduct == IdProduct);
+            if(product == null)
+            {
+                return NotFound();
+            }
+            product = mapper.Map(productCreationDTO, product);
+            await context.SaveChangesAsync();
+            return Ok("Update done");
         }
 
         [HttpDelete]

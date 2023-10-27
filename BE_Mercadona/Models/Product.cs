@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace BE_Mercadona.Models
 {
@@ -16,5 +17,7 @@ namespace BE_Mercadona.Models
         [Required(ErrorMessage = "The field with name {0} is required")]
         public int CatId { get; set; }
         public Promotion? Promotions { get; set; }
+
+        
     }
 }

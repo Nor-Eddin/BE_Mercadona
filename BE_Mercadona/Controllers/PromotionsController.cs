@@ -36,16 +36,6 @@ namespace BE_Mercadona.Controllers
             var promotions = await context.Promotions.ToListAsync();
             return mapper.Map<List<PromotionDTO>>(promotions);
         }
-        /// <summary>
-        /// Get le promotion by Id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet("{Id:int}")]
-        public ActionResult<Promotion> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PromotionCreationDTO promotionCreationDTO)
@@ -56,10 +46,17 @@ namespace BE_Mercadona.Controllers
             return Ok("La promotion à été créer ");
         }
 
-        [HttpPut]
-        public ActionResult<Promotion> Put([FromBody] Promotion promotion)
+        [HttpPut("{IdPromotion:int}")]
+        public async Task<ActionResult> Put(int IdPromotion,[FromBody] PromotionCreationDTO promotionCreationDTO)
         {
-            throw new NotImplementedException();
+            var promotion=await context.Promotions.FirstOrDefaultAsync(p=>p.IdPromotion==IdPromotion);
+            if (promotion == null)
+            {
+                return NotFound();
+            }
+            promotion = mapper.Map(promotionCreationDTO, promotion);
+            await context.SaveChangesAsync();
+            return Ok("update done");
         }
 
         [HttpDelete]
