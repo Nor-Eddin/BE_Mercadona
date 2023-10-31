@@ -10,6 +10,6 @@ namespace BE_Mercadona.Models
         [Required(ErrorMessage = "The field with name {0} is required")]
         public DateOnly DateToEnd { get; set; }
         [Required(ErrorMessage = "The field with name {0} is required")]
-        public decimal TauxPromotion { get; set; } = 0;
+        public decimal TauxPromotion { get; set; } 
     }
 }

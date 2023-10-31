@@ -11,6 +11,6 @@ namespace BE_Mercadona.DTOs
         public float Price { get; set; }
         public string Image { get; set; }
         public int CatId { get; set; }
-        public Promotion? Promotions { get; set; }
+        public int? IdPromotion { get; set; }
     }
 }

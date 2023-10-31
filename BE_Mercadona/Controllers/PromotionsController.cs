@@ -4,6 +4,7 @@ using BE_Mercadona.DTOs;
 using BE_Mercadona.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace BE_Mercadona.Controllers
 {
@@ -36,7 +37,11 @@ namespace BE_Mercadona.Controllers
             var promotions = await context.Promotions.ToListAsync();
             return mapper.Map<List<PromotionDTO>>(promotions);
         }
-
+        /// <summary>
+        /// Create one promotion
+        /// </summary>
+        /// <param name="promotionCreationDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PromotionCreationDTO promotionCreationDTO)
         {
@@ -46,23 +51,22 @@ namespace BE_Mercadona.Controllers
             return Ok("La promotion à été créer ");
         }
 
-        [HttpPut("{IdPromotion:int}")]
-        public async Task<ActionResult> Put(int IdPromotion,[FromBody] PromotionCreationDTO promotionCreationDTO)
+        /// <summary>
+        /// Delete one promotion
+        /// </summary>
+        /// <param name="IdPromotion"></param>
+        /// <returns></returns>
+        [HttpDelete("{IdPromotion:int}")]
+        public async Task<ActionResult> Delete(int IdPromotion)
         {
-            var promotion=await context.Promotions.FirstOrDefaultAsync(p=>p.IdPromotion==IdPromotion);
-            if (promotion == null)
+            var exist=await context.Promotions.AnyAsync(p=>p.IdPromotion==IdPromotion);
+            if (!exist)
             {
                 return NotFound();
             }
-            promotion = mapper.Map(promotionCreationDTO, promotion);
+            context.Remove(new Promotion() { IdPromotion=IdPromotion });
             await context.SaveChangesAsync();
-            return Ok("update done");
-        }
-
-        [HttpDelete]
-        public ActionResult<Promotion> Delete()
-        {
-            throw new NotImplementedException();
+            return Ok("la promotion a ete supprimer");
         }
         #endregion
     }
