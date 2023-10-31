@@ -50,24 +50,7 @@ namespace BE_Mercadona.Controllers
             await context.SaveChangesAsync();
             return Ok("La promotion à été créer ");
         }
-        /// <summary>
-        /// Update one promotion
-        /// </summary>
-        /// <param name="IdPromotion"></param>
-        /// <param name="promotionCreationDTO"></param>
-        /// <returns></returns>
-        [HttpPut("{IdPromotion:int}")]
-        public async Task<ActionResult> Put(int IdPromotion,[FromBody] PromotionCreationDTO promotionCreationDTO)
-        {
-            var promotion=await context.Promotions.FirstOrDefaultAsync(p=>p.IdPromotion==IdPromotion);
-            if (promotion == null)
-            {
-                return NotFound();
-            }
-            promotion = mapper.Map(promotionCreationDTO, promotion);
-            await context.SaveChangesAsync();
-            return Ok("update done");
-        }
+
         /// <summary>
         /// Delete one promotion
         /// </summary>

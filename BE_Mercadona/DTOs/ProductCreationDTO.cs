@@ -15,6 +15,7 @@ namespace BE_Mercadona.DTOs
         public string Image { get; set; }
         [Required(ErrorMessage = "The field with name {0} is required")]
         public int CatId { get; set; }
-       
+        public int? IdPromotion { get; set; }
+
     }
 }
