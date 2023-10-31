@@ -36,7 +36,11 @@ namespace BE_Mercadona.Controllers
             var categories = await context.Categories.ToListAsync();
             return mapper.Map<List<CategoryDTO>>(categories);
         }
-
+        /// <summary>
+        /// Create one category
+        /// </summary>
+        /// <param name="categoryCreationDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CategoryCreationDTO categoryCreationDTO)
         {
@@ -45,11 +49,22 @@ namespace BE_Mercadona.Controllers
             await context.SaveChangesAsync();
             return Ok("La category à été créer ");
         }
-
-        [HttpDelete]
-        public ActionResult<Category> Delete()
+        /// <summary>
+        /// Delete one category
+        /// </summary>
+        /// <param name="CatId"></param>
+        /// <returns></returns>
+        [HttpDelete("{CatId:int}")]
+        public async Task<ActionResult> Delete(int CatId)
         {
-            throw new NotImplementedException();
+            var exists=await context.Categories.AnyAsync(c=>c.CatId==CatId);
+            if (!exists)
+            {
+                return NotFound();
+            }
+            context.Remove(new Category() { CatId = CatId });
+            await context.SaveChangesAsync();
+            return Ok("la categorie est supprimer");
         }
         #endregion
     
