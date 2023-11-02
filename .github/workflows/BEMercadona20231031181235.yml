@@ -2,7 +2,7 @@ name: Générer et déployer une application .NET Core sur l'application web BEM
 on:
   push:
     branches:
-    - feature3-promotion
+    - master
 env:
   AZURE_WEBAPP_NAME: BEMercadona20231031181235
   AZURE_WEBAPP_PACKAGE_PATH: .\publish
