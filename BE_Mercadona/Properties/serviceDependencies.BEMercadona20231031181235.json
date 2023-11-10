@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "identityapp1": {
+      "ignored": "true",
+      "type": "identityapp"
+    },
+    "postgresql1": {
+      "ignored": "True",
+      "type": "postgresql",
+      "connectionId": "DefaultConnection",
+      "dynamicId": null
+    }
+  }
+}
